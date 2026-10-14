@@ -1,0 +1,6 @@
+{
+  "name": "DayEase — My Personal College Organizer",
+  "description": "A calm, minimal, and beginner-friendly college organizer for managing classes, assignments, daily tasks, and study sessions with zero guilt.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

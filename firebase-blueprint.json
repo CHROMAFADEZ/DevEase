@@ -1,0 +1,114 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile information",
+      "type": "object",
+      "properties": {
+        "displayName": { "type": "string", "maxLength": 100 },
+        "email": { "type": "string", "maxLength": 150 },
+        "photoURL": { "type": "string", "maxLength": 500 },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["email", "createdAt"]
+    },
+    "Task": {
+      "title": "Task",
+      "description": "College, study, or personal task item",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "title": { "type": "string", "maxLength": 300, "minLength": 1 },
+        "subject": { "type": "string", "maxLength": 100 },
+        "deadline": { "type": "string", "maxLength": 20 },
+        "deadlineTime": { "type": "string", "maxLength": 10 },
+        "priority": { "type": "string", "enum": ["low", "medium", "high"] },
+        "estimatedDuration": { "type": "number" },
+        "category": { "type": "string", "enum": ["college", "study", "personal"] },
+        "status": { "type": "string", "enum": ["pending", "in_progress", "completed"] },
+        "notes": { "type": "string", "maxLength": 1000 },
+        "assignmentId": { "type": "string", "maxLength": 128 },
+        "createdAt": { "type": "string" },
+        "completedAt": { "type": "string" }
+      },
+      "required": ["id", "userId", "title", "priority", "estimatedDuration", "category", "status", "createdAt"]
+    },
+    "TimetableClass": {
+      "title": "TimetableClass",
+      "description": "Weekly recurring college class entry",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "subject": { "type": "string", "maxLength": 150, "minLength": 1 },
+        "day": { "type": "string", "enum": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"] },
+        "startTime": { "type": "string", "maxLength": 10 },
+        "endTime": { "type": "string", "maxLength": 10 },
+        "room": { "type": "string", "maxLength": 100 },
+        "instructor": { "type": "string", "maxLength": 100 },
+        "accentColor": { "type": "string", "enum": ["sage", "lavender", "blue", "amber"] },
+        "notes": { "type": "string", "maxLength": 1000 }
+      },
+      "required": ["id", "userId", "subject", "day", "startTime", "endTime"]
+    },
+    "Assignment": {
+      "title": "Assignment",
+      "description": "College assignment, project, or homework submission item",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "title": { "type": "string", "maxLength": 300, "minLength": 1 },
+        "subject": { "type": "string", "maxLength": 100 },
+        "assignedDate": { "type": "string", "maxLength": 20 },
+        "dueDate": { "type": "string", "maxLength": 20 },
+        "dueTime": { "type": "string", "maxLength": 10 },
+        "description": { "type": "string", "maxLength": 2000 },
+        "status": { "type": "string", "enum": ["not_started", "in_progress", "submitted"] },
+        "submittedDate": { "type": "string", "maxLength": 20 }
+      },
+      "required": ["id", "userId", "title", "subject", "assignedDate", "dueDate", "status"]
+    },
+    "DailyReset": {
+      "title": "DailyReset",
+      "description": "Daily morning orientation and evening reflection records",
+      "type": "object",
+      "properties": {
+        "date": { "type": "string", "maxLength": 20 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "morningCompleted": { "type": "boolean" },
+        "morningEnergy": { "type": "string", "enum": ["gentle", "balanced", "energized"] },
+        "availableHours": { "type": "number" },
+        "morningNote": { "type": "string", "maxLength": 1000 },
+        "eveningCompleted": { "type": "boolean" },
+        "eveningGratitude": { "type": "string", "maxLength": 1000 },
+        "eveningTomorrowNote": { "type": "string", "maxLength": 1000 }
+      },
+      "required": ["date", "userId", "morningCompleted", "eveningCompleted"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/User" },
+      "description": "User profile and settings documents"
+    },
+    "/users/{userId}/tasks/{taskId}": {
+      "schema": { "$ref": "#/entities/Task" },
+      "description": "User tasks collection"
+    },
+    "/users/{userId}/classes/{classId}": {
+      "schema": { "$ref": "#/entities/TimetableClass" },
+      "description": "User weekly timetable class schedule"
+    },
+    "/users/{userId}/assignments/{assignmentId}": {
+      "schema": { "$ref": "#/entities/Assignment" },
+      "description": "User assignments and homework coursework"
+    },
+    "/users/{userId}/dailyResets/{dateId}": {
+      "schema": { "$ref": "#/entities/DailyReset" },
+      "description": "User morning and evening daily reset logs"
+    }
+  }
+}
